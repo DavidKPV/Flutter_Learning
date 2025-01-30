@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learning_flutter_app/shared/menu_drawer.dart';
 
 class IntroScreen extends StatelessWidget {
   const IntroScreen({super.key});
@@ -7,6 +8,7 @@ class IntroScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Globo Fitness"),),
+      drawer: MenuDrawer(),
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
