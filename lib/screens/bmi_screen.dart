@@ -10,6 +10,9 @@ class BmiScreen extends StatefulWidget {
 }
 
 class _BmiScreenState extends State<BmiScreen> {
+  final TextEditingController textHeight = TextEditingController();
+  final TextEditingController textWeight = TextEditingController();
+
   final double fontSize = 18;
   String result = "";
   bool isMetric = true;
@@ -17,6 +20,9 @@ class _BmiScreenState extends State<BmiScreen> {
   double? height;
   double? weight;
   late List<bool> isSelected;
+
+  String heightMessage = "";
+  String weightMessage = "";
 
   @override
   void initState() {
@@ -26,27 +32,60 @@ class _BmiScreenState extends State<BmiScreen> {
   
   @override
   Widget build(BuildContext context) {
+
+    heightMessage = "Please insert your height in ${(isMetric) ? "meters" : "inch"}";
+    weightMessage = "Please insert your weight in ${(isMetric) ? "kilos" : "pounds"}";
+
     return Scaffold(
       appBar: AppBar(title: Text("BMI Calculator")),
       drawer: MenuDrawer(),
       bottomNavigationBar: MenuBottom(),
-      body: Column(
-        children: [
-          ToggleButtons(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text("Metric", style: TextStyle(fontSize: fontSize),),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text("Imperial", style: TextStyle(fontSize: fontSize),),
-                ),
-              ], 
-              isSelected: isSelected,
-            onPressed: toggleMeasure,
-          )
-        ]
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ToggleButtons(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text("Metric", style: TextStyle(fontSize: fontSize),),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text("Imperial", style: TextStyle(fontSize: fontSize),),
+                  ),
+                ], 
+                isSelected: isSelected,
+              onPressed: toggleMeasure,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(28.0),
+              child: TextField(controller: textHeight, keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                      hintText: heightMessage
+                  ),
+                )
+            ),
+            Padding(
+                padding: const EdgeInsets.all(28.0),
+                child: TextField(controller: textWeight, keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                      hintText: weightMessage
+                  ),
+                )
+            ),
+            Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: ElevatedButton(
+                    onPressed: findBmi,
+                    child: Text("Calculate BMI", style: TextStyle(fontSize: fontSize),)
+                )
+            ),
+            Text(
+                result,
+              style: TextStyle(fontSize: fontSize),
+            )
+          ]
+        ),
       )
     );
   }
@@ -61,6 +100,22 @@ class _BmiScreenState extends State<BmiScreen> {
     }
     setState(() {
       isSelected = [isMetric, isImperial];
+    });
+  }
+
+  void findBmi() {
+    double bmi = 0;
+    double height = double.tryParse(textHeight.text) ?? 0;
+    double weight = double.tryParse(textWeight.text) ?? 0;
+
+    if (isMetric) {
+      bmi = weight / (height * height);
+    } else {
+      bmi = weight * 703 / (height * height);
+    }
+
+    setState(() {
+      result = "Your BMI is ${bmi.toStringAsFixed(2)}";
     });
   }
 }
