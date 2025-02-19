@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:learning_flutter_app/screens/bmi_screen.dart';
 import 'package:learning_flutter_app/screens/intro_screen.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart' as dotenv;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future main() async {
   await dotenv.load(fileName: "dependencies.env");
