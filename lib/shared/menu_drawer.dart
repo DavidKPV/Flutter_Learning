@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:learning_flutter_app/screens/session_screen.dart';
 import 'package:learning_flutter_app/screens/weather_screen.dart';
+import 'package:learning_flutter_app/todo/screens/todo_screen.dart';
 import '../screens/bmi_screen.dart';
 import '../screens/intro_screen.dart';
 
@@ -21,14 +22,15 @@ class MenuDrawer extends StatelessWidget {
       "Home",
       "BMI Calculator",
       "Weather",
-      "Training"
+      "Training",
+      "To Do"
     ];
 
     List<Widget> menuItems = [];
     menuItems.add(
       DrawerHeader(
         decoration: BoxDecoration(color: Colors.grey),
-        child: Text("Globo Fitness", style: TextStyle(color: Colors.black, fontSize: 28),),
+        child: Text("Learning Tool", style: TextStyle(color: Colors.black, fontSize: 28),),
       )
     );
 
@@ -54,6 +56,9 @@ class MenuDrawer extends StatelessWidget {
                         break;
                       case 'Training':
                         screen = SessionsScreen();
+                        break;
+                      case 'To Do':
+                        screen = TodoScreen();
                         break;
                     }
                     Navigator.of(context).pop();
